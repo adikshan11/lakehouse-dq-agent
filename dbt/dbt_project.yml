@@ -1,0 +1,26 @@
+name: nyc_taxi
+version: "1.0.0"
+config-version: 2
+profile: nyc_taxi
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+vars:
+  silver_path: "{{ env_var('LAKEHOUSE_DATA', '../data') }}/silver/yellow_trips"
+
+models:
+  nyc_taxi:
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table
+
+seeds:
+  nyc_taxi:
+    taxi_zone_lookup:
+      +column_types:
+        LocationID: integer

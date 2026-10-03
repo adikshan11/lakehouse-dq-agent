@@ -1,0 +1,38 @@
+[project]
+name = "lakehouse-dq-agent"
+version = "0.1.0"
+description = "NYC taxi lakehouse on PySpark and Delta Lake, dbt marts, data quality gates and an LLM agent that proposes dbt tests"
+requires-python = ">=3.10"
+dependencies = [
+    "pyspark==3.5.3",
+    "delta-spark==3.2.1",
+    "duckdb>=1.1",
+    "dbt-duckdb>=1.8",
+    "anthropic>=0.70",
+    "pydantic>=2",
+    "pyyaml>=6",
+    "requests>=2.31",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[project.scripts]
+lakehouse = "lakehouse.pipeline:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

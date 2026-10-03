@@ -1,0 +1,9 @@
+nyc_taxi:
+  target: local
+  outputs:
+    local:
+      type: duckdb
+      path: "{{ env_var('LAKEHOUSE_DATA', '../data') }}/warehouse.duckdb"
+      threads: 4
+      extensions:
+        - delta

@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: stg_yellow_trips
+    description: Cleaned NYC yellow taxi trips read from the silver Delta table.
+    columns:
+      - name: trip_id
+        data_tests: [not_null, unique]
+      - name: payment_method
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [credit_card, cash, no_charge, dispute, other]
+      - name: pu_location_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_zones')
+                field: location_id
+
+  - name: dim_zones
+    description: NYC TLC taxi zones.
+    columns:
+      - name: location_id
+        data_tests: [not_null, unique]
+
+  - name: fct_daily_zone_trips
+    description: Trips, revenue and fare metrics per pickup day and pickup zone.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: [pickup_date, location_id]
+    columns:
+      - name: trips
+        data_tests: [not_null]
+      - name: revenue
+        data_tests: [not_null]
