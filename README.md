@@ -1,6 +1,6 @@
 # lakehouse-dq-agent
 
-A small lakehouse for NYC yellow taxi trips: PySpark loads raw files into Delta Lake bronze and silver tables, quality gates stop bad loads, dbt builds the marts, and a column profiler proposes dbt tests from the data itself (rule-based by default, with an optional Claude tool-use mode).
+A small medallion lakehouse for NYC yellow taxi trips: PySpark loads raw files into Delta Lake bronze and silver tables, quality gates stop bad loads, dbt builds the gold marts, and a column profiler proposes dbt tests from the data itself (rule-based by default, with an optional Claude tool-use mode).
 
 ```
 TLC parquet ──► bronze (Delta, per-month replaceWhere) ──► silver (Delta MERGE, deduped)
